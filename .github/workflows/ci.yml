@@ -14,7 +14,8 @@ env:
   PROJECT_NAME: fonttools
   PACKAGE_DIR: src/fonttools
   FONTTOOLS_WITH_CYTHON: yes
-  CIBW_TEST_COMMAND: python -m unittest discover -v -s {package}/python/ -p "*_test.py"
+  CIBW_TEST_REQUIRES: -rrequirements.txt
+  CIBW_TEST_COMMAND: pytest {project}
 
 jobs:
 
