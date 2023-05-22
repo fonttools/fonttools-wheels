@@ -13,7 +13,7 @@ on:
 env:
   PROJECT_NAME: fonttools
   PACKAGE_DIR: src/fonttools
-  FONTTOOLS_WITH_CYTHON: yes
+  CIBW_ENVIRONMENT: FONTTOOLS_WITH_CYTHON=1
   CIBW_TEST_REQUIRES: -rrequirements.txt
   CIBW_TEST_COMMAND: pytest {project}
 
