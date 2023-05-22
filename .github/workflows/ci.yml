@@ -14,7 +14,7 @@ env:
   PROJECT_NAME: fonttools
   PACKAGE_DIR: src/fonttools
   CIBW_ENVIRONMENT: FONTTOOLS_WITH_CYTHON=1
-  CIBW_TEST_REQUIRES: -r src/fonttools/requirements.txt
+  CIBW_TEST_REQUIRES: pytest -r src/fonttools/requirements.txt
   CIBW_TEST_COMMAND: pytest {project}
 
 jobs:
@@ -32,25 +32,29 @@ jobs:
         arch: [auto64]
         build: ["*"]
         include:
-          # the manylinux1 docker images contain up to python 3.9
-          - os: ubuntu-latest
-            type: manylinux1
-            arch: auto
-            build: "cp{38,39}-*"
-            CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
-            CIBW_MANYLINUX_I686_IMAGE: manylinux1
-          # the manylinux2010 image contains python 3.10 and pypy3.8
-          - os: ubuntu-latest
-            arch: auto
-            type: manylinux2010
-            build: "pp{38}-* cp310-*"
-            CIBW_MANYLINUX_X86_64_IMAGE: manylinux2010
-            CIBW_MANYLINUX_I686_IMAGE: manylinux2010
-          # the manylinux2014 image contains python 3.11 and pypy3.9
+          # # the manylinux1 docker images contain up to python 3.9
+          # - os: ubuntu-latest
+          #   type: manylinux1
+          #   arch: auto
+          #   build: "cp{38,39}-*"
+          #   CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
+          #   CIBW_MANYLINUX_I686_IMAGE: manylinux1
+          # # the manylinux2010 image contains python 3.10 and pypy3.8
+          # - os: ubuntu-latest
+          #   arch: auto
+          #   type: manylinux2010
+          #   build: "pp{38}-* cp310-*"
+          #   CIBW_MANYLINUX_X86_64_IMAGE: manylinux2010
+          #   CIBW_MANYLINUX_I686_IMAGE: manylinux2010
+          # # the manylinux2014 image contains python 3.11 and pypy3.9
+          #
+          # the manylinux2014 image contains ALL the python versions we support
+          # use that for simplicity, and only if needed build for older manylinuxes
           - os: ubuntu-latest
             arch: auto
             type: manylinux2014
-            build: "pp39-* cp311-*"
+            # build: "pp39-* cp311-*"
+            build: "cp{38,39,310,311}-* pp{38,39}-*"
             CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
             CIBW_MANYLINUX_I686_IMAGE: manylinux2014
 
