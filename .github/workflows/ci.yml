@@ -76,7 +76,8 @@ jobs:
       with:
         python-version: "3.x"
     - name: Install dependencies
-      run: pip install cibuildwheel
+      run: pip install git+https://github.com/anthrotype/cibuildwheel.git@test_command_wheel#egg=cibuildwheel
+
     - name: Build Wheels
       run: python -m cibuildwheel --output-dir wheelhouse "${PACKAGE_DIR}"
       env:
@@ -104,7 +105,7 @@ jobs:
       with:
         platforms: all
     - name: Install dependencies
-      run: pip install cibuildwheel
+      run: pip install git+https://github.com/anthrotype/cibuildwheel.git@test_command_wheel#egg=cibuildwheel
     - name: Build Wheels
       run: python -m cibuildwheel --output-dir wheelhouse "${PACKAGE_DIR}"
       env:
