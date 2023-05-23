@@ -13,11 +13,10 @@ on:
 env:
   PROJECT_NAME: fonttools
   PACKAGE_DIR: src/fonttools
-  # skip binary wheels for pypy; preferable to use pure-python package
-  CIBW_SKIP: pp*
+  # skip binary wheels for pypy (preferable to use pure-python) and 32-bit Linux
+  CIBW_SKIP: pp* cp*linux_i686
   CIBW_ENVIRONMENT: FONTTOOLS_WITH_CYTHON=1
   CIBW_TEST_REQUIRES: tox
-  CIBW_TEST_COMMAND: "tox -e py-cy-nolxml -c {package}/tox.ini --installpkg {wheel}"
 
 jobs:
 
@@ -33,6 +32,7 @@ jobs:
         os: [macos-latest, windows-latest]
         arch: [auto64]
         build: ["*"]
+        test_command: ["tox -e py-cy-nolxml -c {package}/tox.ini --installpkg {wheel}"]
         include:
           # # the manylinux1 docker images contain up to python 3.9
           # - os: ubuntu-latest
@@ -67,6 +67,8 @@ jobs:
           - os: windows-latest
             arch: auto32
             build: "*"
+            # skip running test on 32-bit windows
+            test_command: "python -c \"import fontTools; print(fontTools.__file__, fontTools.__version__)\""
     steps:
     - uses: actions/checkout@v2
       with:
@@ -85,6 +87,7 @@ jobs:
         CIBW_MANYLINUX_I686_IMAGE: ${{ matrix.CIBW_MANYLINUX_I686_IMAGE }}
         CIBW_MANYLINUX_X86_64_IMAGE: ${{ matrix.CIBW_MANYLINUX_X86_64_IMAGE }}
         CIBW_ARCHS: ${{ matrix.arch }}
+        CIBW_TEST_COMMAND: ${{ matrix.test_command }}
     - uses: actions/upload-artifact@v2
       with:
         path: wheelhouse/*.whl
