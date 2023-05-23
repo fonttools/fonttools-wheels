@@ -14,10 +14,8 @@ env:
   PROJECT_NAME: fonttools
   PACKAGE_DIR: src/fonttools
   CIBW_ENVIRONMENT: FONTTOOLS_WITH_CYTHON=1
-  # TODO: Run the actual test suite, make sure it passes everywhere!
-  # CIBW_TEST_REQUIRES: pytest -r src/fonttools/requirements.txt
-  # CIBW_TEST_COMMAND: pytest {project}
-  CIBW_TEST_COMMAND: python -c "import fontTools; print(fontTools.__file__, fontTools.__version__)"
+  CIBW_TEST_REQUIRES: tox
+  CIBW_TEST_COMMAND: tox -e py-cy -c {project} --installpkg wheelhouse/fonttools*.whl
 
 jobs:
 
