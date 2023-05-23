@@ -15,7 +15,7 @@ env:
   PACKAGE_DIR: src/fonttools
   CIBW_ENVIRONMENT: FONTTOOLS_WITH_CYTHON=1
   CIBW_TEST_REQUIRES: tox
-  CIBW_TEST_COMMAND: tox -e py-cy -c {project} --installpkg wheelhouse/fonttools*.whl
+  CIBW_TEST_COMMAND: "tox -e py-cy -c {project}/tox.ini --installpkg {wheel}"
 
 jobs:
 
